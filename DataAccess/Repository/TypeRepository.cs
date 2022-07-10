@@ -7,10 +7,9 @@ using BusinessObject.Models;
 
 namespace DataAccess.Repository
 {
-    public interface ISubCategoryRepository
+    public class TypeRepository : ITypeRepository
     {
-        IEnumerable<SubCategory> GetAllByCategoryId(int id);
-
-        IEnumerable<SubCategory> GetAll();
+        public IEnumerable<BusinessObject.Models.Type> GetAll()
+        => ManagePersonalExpensesContext.Instance.Types.ToList();
     }
 }

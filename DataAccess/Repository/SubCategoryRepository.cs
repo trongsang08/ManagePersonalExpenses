@@ -9,6 +9,9 @@ namespace DataAccess.Repository
 {
     public class SubCategoryRepository : ISubCategoryRepository
     {
+        public IEnumerable<SubCategory> GetAll()
+        => ManagePersonalExpensesContext.Instance.SubCategories.ToList();
+        
         public IEnumerable<SubCategory> GetAllByCategoryId(int id) => ManagePersonalExpensesContext.Instance.SubCategories.Where(x => x.CategoryId == id);
        
     }

@@ -45,6 +45,10 @@ namespace GUI
         }
 
         private void btnCancel_Click(object sender, EventArgs e) => Close();
-       
+
+        private void FrmAddCategory_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

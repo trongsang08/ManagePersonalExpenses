@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessObject.Models;
-
 namespace DataAccess.Repository
 {
-    public interface ISubCategoryRepository
+    public interface ITypeRepository
     {
-        IEnumerable<SubCategory> GetAllByCategoryId(int id);
-
-        IEnumerable<SubCategory> GetAll();
+        IEnumerable<BusinessObject.Models.Type> GetAll();
     }
 }

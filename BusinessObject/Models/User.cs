@@ -17,9 +17,7 @@ namespace BusinessObject.Models
         public string Account { get; set; }
         public string Password { get; set; }
         public bool Gender { get; set; }
-        public int RoleId { get; set; }
 
-        public virtual Role Role { get; set; }
         public virtual ICollection<Record> Records { get; set; }
     }
 }
