@@ -16,5 +16,24 @@ namespace GUI
         {
             InitializeComponent();
         }
+        public static string[] FormShowed = { "", "Closed", "Closed", "Closed", "Closed", "Closed", "Closed" };
+        private void toolStripMenuItemRecord_Click(object sender, EventArgs e)
+        {
+            FrmRecords frmRecords = new FrmRecords();
+            frmRecords.Show();
+            
+        }
+
+        private void subCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmCategories frmCategories  = new FrmCategories();
+            frmCategories.Show();
+        }
+
+        private void staticToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Report report = new Report();
+            report.Show();
+        }
     }
 }

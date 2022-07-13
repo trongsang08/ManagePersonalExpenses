@@ -12,5 +12,7 @@ namespace DataAccess.Repository
         IEnumerable<SubCategory> GetAllByCategoryId(int id);
 
         IEnumerable<SubCategory> GetAll();
+
+        public SubCategory FindById(int id);
     }
 }

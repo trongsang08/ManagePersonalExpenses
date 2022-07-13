@@ -17,5 +17,7 @@ namespace DataAccess.Repository
         Record GetRecordById(int id);
 
         void Update(Record record);
+
+        IEnumerable<Record> SearchBySubCategoryOrDescription(string keyword);
     }
 }

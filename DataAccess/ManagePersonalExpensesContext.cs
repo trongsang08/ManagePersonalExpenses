@@ -8,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace BusinessObject.Models
 {
+  
+
+
+
     public partial class ManagePersonalExpensesContext : DbContext
     {
         public ManagePersonalExpensesContext()
@@ -40,6 +44,8 @@ namespace BusinessObject.Models
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Type> Types { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+       
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -169,7 +175,6 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("password");
             });

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using BusinessObject.Models;
 using DataAccess.Repository;
 
+
 namespace GUI
 {
     public partial class FrmRecords : Form
@@ -18,6 +19,7 @@ namespace GUI
         ISubCategoryRepository subCategoryRepository = new SubCategoryRepository();
         ITypeRepository typeRepository = new TypeRepository();
         int count = 0;
+        
         public Record record { get; set; }
         public FrmRecords()
         {
@@ -35,10 +37,16 @@ namespace GUI
                            join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
                            join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
                            select new {
-                               r.RecordId , r.Money, r.Date, Category = s.Name,Type = t.Name,r.Description
+                               r.RecordId,
+                               r.Money,
+                               r.Date,
+                               SubCategory = s.Name,
+                               Type = t.Name,
+                               r.Description,
+                               
                            }).ToList();
 
-
+            
             dgvRecord.DataSource = records;
         }
 
@@ -111,6 +119,9 @@ namespace GUI
             cbType.DataSource = type;
             cbType.DisplayMember = "Name";
             cbType.ValueMember = "TypeId";
+
+            cbMoney.SelectedIndex = 0;
+            cbDate.SelectedIndex = 0;
         }
 
         private void cbCategory_SelectedValueChanged(object sender, EventArgs e)
@@ -121,8 +132,6 @@ namespace GUI
                 return;
 			}
             
-
-
             var records = (from r in recordRepository.GetAll()
                            join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
                            join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
@@ -136,7 +145,6 @@ namespace GUI
                                Type = t.Name,
                                r.Description
                            }).ToList();
-
 
             dgvRecord.DataSource = records;
         }
@@ -167,6 +175,149 @@ namespace GUI
 
 
             dgvRecord.DataSource = records;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var records = (from r in recordRepository.GetAll()
+                           join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                           join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                           where s.Name.ToLower().Contains(txtSearch.Text.ToLower())
+                           select new
+                           {
+                               r.RecordId,
+                               r.Money,
+                               r.Date,
+                               Category = s.Name,
+                               Type = t.Name,
+                               r.Description
+                           }).ToList();
+
+
+            dgvRecord.DataSource = records;
+        }
+
+        private void btnSearchDate_Click(object sender, EventArgs e)
+        {
+            var records = (from r in recordRepository.GetAll()
+                           join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                           join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                           where r.Date >=  dtpStartTime.Value && r.Date <= dtpEndTime.Value
+                           select new
+                           {
+                               r.RecordId,
+                               r.Money,
+                               r.Date,
+                               Category = s.Name,
+                               Type = t.Name,
+                               r.Description
+                           }).ToList();
+
+
+            dgvRecord.DataSource = records;
+        }
+
+        private void dgvRecord_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void cbMoney_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbMoney_SelectedValueChanged(object sender, EventArgs e)
+
+        {
+            if (count < 7)
+            {
+                count++;
+                return;
+            }
+
+            if (cbMoney.SelectedIndex == 0)
+            {
+                var records = (from r in recordRepository.GetAll()
+                               join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                               join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                               orderby r.Money ascending
+                               select new
+                               {
+                                   r.RecordId,
+                                   r.Money,
+                                   r.Date,
+                                   Category = s.Name,
+                                   Type = t.Name,
+                                   r.Description
+                               }).ToList();
+                dgvRecord.DataSource = records;
+            }
+            else
+            {
+                var records = (from r in recordRepository.GetAll()
+                               join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                               join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                               orderby r.Money descending
+                               select new
+                               {
+                                   r.RecordId,
+                                   r.Money,
+                                   r.Date,
+                                   Category = s.Name,
+                                   Type = t.Name,
+                                   r.Description
+                               }).ToList();
+                dgvRecord.DataSource = records;
+            }
+            
+
+
+            
+        }
+
+        private void cbDate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (count < 8)
+            {
+                count++;
+                return;
+            }
+
+            if (cbDate.SelectedIndex == 0)
+            {
+                var records = (from r in recordRepository.GetAll()
+                               join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                               join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                               orderby r.Date ascending
+                               select new
+                               {
+                                   r.RecordId,
+                                   r.Money,
+                                   r.Date,
+                                   Category = s.Name,
+                                   Type = t.Name,
+                                   r.Description
+                               }).ToList();
+                dgvRecord.DataSource = records;
+            }
+            else
+            {
+                var records = (from r in recordRepository.GetAll()
+                               join s in subCategoryRepository.GetAll() on r.SubCategoryId equals s.SubCategoryId
+                               join t in typeRepository.GetAll() on r.TypeId equals t.TypeId
+                               orderby r.Date descending
+                               select new
+                               {
+                                   r.RecordId,
+                                   r.Money,
+                                   r.Date,
+                                   Category = s.Name,
+                                   Type = t.Name,
+                                   r.Description
+                               }).ToList();
+                dgvRecord.DataSource = records;
+            }
         }
     }
 }

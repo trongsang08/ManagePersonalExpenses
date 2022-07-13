@@ -105,7 +105,9 @@
             // 
             // cbCategory
             // 
+            this.cbCategory.DropDownHeight = 90;
             this.cbCategory.FormattingEnabled = true;
+            this.cbCategory.IntegralHeight = false;
             this.cbCategory.Location = new System.Drawing.Point(573, 104);
             this.cbCategory.Name = "cbCategory";
             this.cbCategory.Size = new System.Drawing.Size(151, 28);

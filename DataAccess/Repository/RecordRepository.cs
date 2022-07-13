@@ -27,6 +27,19 @@ namespace DataAccess.Repository
             ManagePersonalExpensesContext.Instance.SaveChanges();
         }
 
+        public IEnumerable<Record> SearchBySubCategoryOrDescription(string keyword)
+        {
+           var records =  ManagePersonalExpensesContext.Instance.Records.ToList();
+           var subcate = ManagePersonalExpensesContext.Instance.SubCategories.ToList();
+           var result = records.Join(
+             subcate,
+             p => p.SubCategoryId,
+             c => c.SubCategoryId,
+             (p, c) => new { });
+            return (IEnumerable<Record>)result;
+        }
+        
+
         public void Update(Record record)
         {
             ManagePersonalExpensesContext.Instance.Records.Update(record);
