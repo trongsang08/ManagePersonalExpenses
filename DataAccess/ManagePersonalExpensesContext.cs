@@ -55,7 +55,7 @@ namespace BusinessObject.Models
                          .SetBasePath(Directory.GetCurrentDirectory())
                          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 IConfigurationRoot configuration = builder.Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DB"));
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("ManagePersonalExpenses"));
             }
         }
 
