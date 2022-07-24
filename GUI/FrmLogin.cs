@@ -44,32 +44,49 @@ namespace GUI
             }
         }
 
+        public bool thongbao()
+        {
+            if (txtUsername.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng nhập tên người dùng!");
+                return false;
+            }else if (txtPassword.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu!");
+                return false;
+            }
+            return true;
+        }
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            try
+            if (thongbao())
             {
-                string strselect = "select * from [User] where account='" + txtUsername.Text + "'and password='" + CreateMD5(txtPassword.Text) + "'";
-                da = new SqlDataAdapter(strselect, cnn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                try
                 {
-                    //ton tai du lieu --> login thnh cong
-                    MessageBox.Show("Login Successful!", "Alert");
-                    string name = Getname(txtUsername.Text);
-                    FrmCategories frmcategory = new FrmCategories();
-                    frmcategory.Show();
-                    this.Hide();
+                    string strselect = "select * from [User] where account='" + txtUsername.Text + "'and password='" + CreateMD5(txtPassword.Text) + "'";
+                    da = new SqlDataAdapter(strselect, cnn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        //ton tai du lieu --> login thnh cong
+                        MessageBox.Show("Đăng nhập thành công!", "Thông Báo");
+                        string name = Getname(txtUsername.Text);
+                        FrmCategories frmcategory = new FrmCategories();
+                        frmcategory.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tên tài khoản hoặc mật khẩu không chính xác!", "Thông Báo");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Login Fail!", "Alert");
+                    MessageBox.Show("Login Error :" + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Login Error :" + ex.Message);
-            }
+            
         }
         private string Getname(string text)
         {

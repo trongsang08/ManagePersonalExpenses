@@ -39,22 +39,32 @@ namespace GUI
                 // return sb.ToString();
             }
         }
-        
+
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            User user = new User
-            {
-                Fullname = txtFullname.Text,
-                Account = txtUsername.Text,
-                Password = CreateMD5(txtPassword.Text),
-                Gender = rdMale.Checked ? true : false
-            };
             try
             {
-                userRepository.InsertUser(user);
-                MessageBox.Show("Create account successfull!","Alert");
-
+                User user = new User();
+                if (txtFullname.Text.Equals("") ) 
+                {
+                    MessageBox.Show("Vui lòng nhập Fullname","Alert");
+                }else if (txtUsername.Text.Equals(""))
+                {
+                    MessageBox.Show("Vui lòng nhập Username");
+                }else if (txtPassword.Text.Equals(""))
+                {
+                    MessageBox.Show("Vui lòng nhập Password", "Alert");
+                }
+                else
+                {
+                    user.Fullname = txtFullname.Text;
+                    user.Account = txtUsername.Text;
+                    user.Password = CreateMD5(txtPassword.Text);
+                    user.Gender = rdMale.Checked ? true : false;
+                    userRepository.InsertUser(user);
+                    MessageBox.Show("Create account successfull!", "Alert");
+                }
             }
             catch (Exception ex)
             {
@@ -64,9 +74,10 @@ namespace GUI
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult dg = MessageBox.Show("Bạn có muốn thoát ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dg == DialogResult.Yes)
-                Application.Exit();
+            //DialogResult dg = MessageBox.Show("Bạn có muốn thoát ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (dg == DialogResult.Yes)
+            //    Application.Exit();
+            this.Close();
         }
 
         private void checkShowpass_CheckedChanged(object sender, EventArgs e)

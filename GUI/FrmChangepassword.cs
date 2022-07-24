@@ -38,61 +38,108 @@ namespace GUI
                 // return sb.ToString();
             }
         }
+        public bool thongbao()
+        {
+            //if(txtUsername.Text.Equals("") || txtOldPass.Text.Equals("") || txtNewpass.Text.Equals("") || txtConfirmNewpass.Text.Equals(""))
+            //{
+            //    MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
+            //    return false;
+            //}else
+            if (txtUsername.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng nhập Username!!");
+                //txtUsername.Focus();
+                return false;
+            }
+            else if (txtOldPass.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu cũ");
+                //txtOldPass.Focus();
+                return false;
+            }
+            else if (txtNewpass.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu mới!!");
+                //txtNewpass.Focus();
+                return false;
+            }
+            else if (txtConfirmNewpass.Text.Equals(""))
+            {
+                MessageBox.Show("Vui lòng xác nhập mật khẩu mới!!");
+                //txtNewpass.Focus();
+                return false;
+            }
+            else if(txtNewpass.Text != txtConfirmNewpass.Text)
+            {
+                MessageBox.Show("Mật khẩu mới không chính xác !!");
+                //txtConfirmNewpass.Focus();
+                //txtConfirmNewpass.SelectAll();
+                return false;
+            }
+            return true;
+        }
 
         private void btnChangepass_Click(object sender, EventArgs e)
         {
-            try
+            if (thongbao())
             {
-                SqlConnection conn = new SqlConnection();
-                string strCnn = "server=DESKTOP-671LN6B;database=ManagePersonalExpenses;uid=sa;pwd=123456";
-                conn = new SqlConnection(strCnn);
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "SP_Update";
-                cmd.Parameters.Add("@User", SqlDbType.NVarChar).Value = txtUsername.Text;
-                cmd.Parameters.Add("@OldPass", SqlDbType.NVarChar).Value = CreateMD5(txtOldPass.Text);
-                cmd.Parameters.Add("@NewPass", SqlDbType.NVarChar).Value = CreateMD5(txtNewpass.Text);
-                cmd.Connection = conn;
-                conn.Open();
-                SqlDataReader dr;
-                dr = cmd.ExecuteReader();
-                dr.Read();
-                if (dr.GetInt32(0) == 1)
+                try
                 {
-                    //lbOldpassword.ForeColor = System.Drawing.Color.Blue;
-                    //lbOldpassword.Text = dr.GetString(1);
-                    txtConfirmNewpass.Text = "";
-                    txtOldPass.Text = "";
-                    txtNewpass.Text = "";
-                    txtOldPass.Focus();
-                    MessageBox.Show("You have changed password Succesful!", "Alert");
+                    SqlConnection conn = new SqlConnection();
+                    string strCnn = "server=DESKTOP-671LN6B;database=ManagePersonalExpenses;uid=sa;pwd=123456";
+                    conn = new SqlConnection(strCnn);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "SP_Update";
+                    cmd.Parameters.Add("@User", SqlDbType.NVarChar).Value = txtUsername.Text;
+                    cmd.Parameters.Add("@OldPass", SqlDbType.NVarChar).Value = CreateMD5(txtOldPass.Text);
+                    cmd.Parameters.Add("@NewPass", SqlDbType.NVarChar).Value = CreateMD5(txtNewpass.Text);
+                    cmd.Connection = conn;
+                    conn.Open();
+                    SqlDataReader dr;
+                    dr = cmd.ExecuteReader();
+                    dr.Read();
+                    if (dr.GetInt32(0) == 1)
+                    {
+                        //lbOldpassword.ForeColor = System.Drawing.Color.Blue;
+                        //lbOldpassword.Text = dr.GetString(1);
+                        txtConfirmNewpass.Text = "";
+                        txtOldPass.Text = "";
+                        txtNewpass.Text = "";
+                        txtOldPass.Focus();
+                        MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo");
 
+                    }
+                    else
+                    {
+                        //lbOldpassword.ForeColor = System.Drawing.Color.Red;
+                        //lbOldpassword.Text = dr.GetString(1);
+                        //txtOldPass.Focus();
+                        //txtOldPass.SelectAll();
+                        MessageBox.Show("Tên người dùng hoặc mật khẩu không đúng!", "Thông báo");
+                    }
+                    dr.Close();
+                    conn.Close();
                 }
-                else
+                catch (Exception ex)
                 {
-                    //lbOldpassword.ForeColor = System.Drawing.Color.Red;
-                    //lbOldpassword.Text = dr.GetString(1);
-                    txtOldPass.Focus();
-                    txtOldPass.SelectAll();
-                    MessageBox.Show("Username or password incorect!", "Alert");
+                    MessageBox.Show(ex.Message);
                 }
-                dr.Close();
-                conn.Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+                
+            
+            
 
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult dg = MessageBox.Show("Bạn có muốn thoát ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dg == DialogResult.Yes)
-            {
-                this.Close();
-            }
+            //DialogResult dg = MessageBox.Show("Bạn có muốn thoát ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (dg == DialogResult.Yes)
+            //{
+            //    this.Close();
+            //}
+            this.Close();
         }
 
         private void checkShowpass_CheckedChanged(object sender, EventArgs e)
